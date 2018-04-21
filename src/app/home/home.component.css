@@ -1,0 +1,14 @@
+.calendar-main {
+    margin: 20px 100px 0px 100px;
+    border: 3px solid #009688;
+}
+.app-grid-item {
+    background-color: white;
+    border: 1px solid aliceblue;
+}
+.app-grid-item.disabled {
+    background-color: gainsboro;
+}
+.app-grid-item.active {
+    background-color: aliceblue;
+}
