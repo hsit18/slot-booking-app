@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { HttpModule } from '@angular/http';
 import {
     MatToolbarModule,
     MatGridListModule,
@@ -25,6 +26,7 @@ import { DayViewComponent } from './day-view/day-view.component';
     imports: [
         BrowserModule,
         CommonModule,
+        HttpModule,
         RouterModule.forRoot(appRoutes),
         MatToolbarModule,
         MatGridListModule,

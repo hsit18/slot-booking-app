@@ -1,10 +1,10 @@
 <div class="calendar-main">
-  <mat-grid-list cols="4" rowHeight="100px" rowWidth="100px">
-    <mat-grid-tile *ngFor="let day of days" (click)="handleGridClick(day)" colspan="1" rowspan="1" class="app-grid-item" [ngClass]="{'disabled': day < today, 'active': day === today}">
+  <mat-grid-list cols="4" rowHeight="150px" rowWidth="100px">
+    <mat-grid-tile *ngFor="let day of days" colspan="1" rowspan="1" class="app-grid-item" [ngClass]="{'disabled': day < today, 'active': day === today}">
       <div class="date-container">
         <div class="date-text">{{day}}</div>
         <div class="slot-status">
-          <span class="meeting-text">Metting RoomA 2/24</span>
+          <span (click)="handleGridClick(1, day)" class="meeting-text">Metting RoomA 2/24</span>
           <span class="meeting-text">Metting RoomA 2/24</span>
           <span class="meeting-text">Metting RoomA 2/24</span>
           <span class="meeting-text">Metting RoomA 2/24</span>
