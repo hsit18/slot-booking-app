@@ -109,12 +109,13 @@ export class BookSlotComponent implements OnInit, OnDestroy {
     }
 
     public checkRoomsAvailable() {
+        const slotIds = [];
         const formVal = this.formGroup.value;
         const timeSt = new Date();
         const timeEt = new Date();
         const selectedStartTime = new Date();
         const selectedEndTime = new Date();
-        console.log(formVal.date);
+
         if (formVal.date && formVal.hours && formVal.minutes) {
             selectedStartTime.setHours(formVal.hours, formVal.minutes, '00');
             selectedEndTime.setHours(this.getEndTime(formVal.hours), formVal.minutes, '00');
@@ -130,13 +131,20 @@ export class BookSlotComponent implements OnInit, OnDestroy {
                     return ((timeSt <= selectedStartTime && timeEt >= selectedStartTime) || (timeSt <= selectedEndTime && timeEt >= selectedEndTime));
                 }
             });
-            const slotIds = bookedRoomsByDate.map(bs => bs.slot_id);
+
+            bookedRoomsByDate.forEach(bs => {
+              if(bs.slot_id === 5) {
+                slotIds.push(3, 4);
+              } else if(bs.slot_id === 3 || bs.slot_id === 4) {
+                slotIds.push(5);
+              }
+              slotIds.push(bs.slot_id);
+            });
             console.log(slotIds);
             this.rooms = this.slots.filter(s => slotIds.indexOf(s.id) === -1);
             this.formGroup.get('room').setValue(null);
             console.log(this.rooms);
         }
-
     }
 
     public ngOnDestroy(): void {
