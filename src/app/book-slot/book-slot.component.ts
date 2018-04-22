@@ -2,9 +2,13 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+
 import { getHours, getMinutes } from '../utils';
 import { AppService } from '../app.service';
+
 import { Slot } from '../interfaces/slots';
+import { BookedSlot } from '../interfaces/bookedSlots';
 
 @Component({
     selector: 'app-book-slot',
@@ -16,8 +20,11 @@ export class BookSlotComponent implements OnInit, OnDestroy {
     public hours: string[] = getHours();
     public minutes: string[] = getMinutes();
     public today: Date = new Date();
+    public slots: Slot[];
     public rooms: Slot[];
+    public bookedSlots: BookedSlot[] = [];
 
+    private dataSub: Subscription;
     private roomsSub: Subscription;
 
     constructor(
@@ -35,12 +42,17 @@ export class BookSlotComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
+      this.dataSub = Observable.combineLatest(
+          this.appService.getBookedSlots(),
+          this.appService.getSlots()
+      ).subscribe((res: [BookedSlot[], Slot[]]) => [this.bookedSlots, this.slots] = res);
+
         this.roomsSub = this.appService
             .getSlots()
             .subscribe(
                 (slots: Slot[]) => {
                     console.log(slots);
-                    this.rooms = slots;
+                    this.slots = slots;
                 }
             );
     }
@@ -82,6 +94,23 @@ export class BookSlotComponent implements OnInit, OnDestroy {
     public getEndTime(hr: string): string {
         const indx: number = this.hours.findIndex(h => h === hr);
         return this.hours[indx + 1];
+    }
+
+    public checkRoomsAvailable() {
+      const formVal = this.formGroup.value;
+      console.log(formVal.date);
+      if(formVal.date && formVal.hours && formVal.minutes) {
+        const bookedRoomsByDate: BookedSlot[] = this.bookedSlots.filter(bs => {
+          return (bs.day === formVal.date.getDate() &&
+                  bs.month === formVal.date.getMonth() &&
+                  bs.year === formVal.date.getFullYear())
+        });
+        const slotIds = bookedRoomsByDate.map(bs => bs.id);
+        console.log(slotIds);
+        this.rooms = this.slots.filter(s => slotIds.indexOf(s.id) === -1)
+        console.log(this.rooms);
+      }
+
     }
 
     public ngOnDestroy(): void {

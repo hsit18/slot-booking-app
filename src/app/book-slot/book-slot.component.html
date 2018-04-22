@@ -11,19 +11,11 @@
         <input formControlName="name" matInput placeholder="Booking Name" required>
       </mat-form-field>
     </div>
-    <div>
-      <label>Room:</label>
-      <mat-form-field>
-        <mat-select formControlName="room" required>
-          <mat-option *ngFor="let room of rooms" value="{{room.id}}">{{room.name}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <span>Rate: ${{roomRate}} for {{hourRate}} {{hourRate > 1 ? 'hours' : 'hour'}}</span>
-    </div>
+
     <div>
       <label>Date:</label>
       <mat-form-field>
-        <input matInput formControlName="date" [min]="today" [matDatepicker]="picker" placeholder="Choose a date" required>
+        <input matInput formControlName="date" [min]="today" [matDatepicker]="picker" placeholder="Choose a date" required (dateChange)="checkRoomsAvailable()">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
@@ -40,6 +32,15 @@
           <mat-option *ngFor="let mins of minutes" value="{{mins}}">{{mins}}</mat-option>
         </mat-select>
       </mat-form-field>
+    </div>
+    <div>
+    <label>Room:</label>
+      <mat-form-field>
+        <mat-select formControlName="room" required>
+          <mat-option *ngFor="let room of rooms" value="{{room.id}}">{{room.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <span *ngIf="rooms && rooms.length > 1">Rate: ${{roomRate}} for {{hourRate}} {{hourRate > 1 ? 'hours' : 'hour'}}</span>
     </div>
     <div>
       <label>Comments:</label>
