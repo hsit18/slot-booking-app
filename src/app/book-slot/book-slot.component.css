@@ -27,3 +27,9 @@
 .btn-book-slot {
     width: 15%;
 }
+
+.buttons {
+    width: 13%;
+    display: flex;
+    justify-content: space-between;
+}
