@@ -16,22 +16,24 @@
       "id": 3,
       "name": "Meeting Point A",
       "price": 15,
-      "hour": 1
+      "hour": 1,
+      "parent_room": 5
     },
     {
       "id": 4,
       "name": "Meeting Point B",
       "price": 20,
-      "hour": 1
+      "hour": 1,
+      "parent_room": 5
     },
     {
-      "id": 4,
+      "id": 5,
       "name": "Meeting Point Full",
       "price": 30,
       "hour": 1
     },
     {
-      "id": 5,
+      "id": 6,
       "name": "Basketball Court",
       "price": 50,
       "hour": 2
