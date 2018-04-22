@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { getDaysForCurrentMonth, getTodayDate, arrayGroupByProp } from '../utils';
+import { getDaysForCurrentMonth, getTodayDate, arrayGroupByProp, getMonth } from '../utils';
 import { Router } from '@angular/router';
 
 import { AppService } from '../app.service';
@@ -18,6 +18,9 @@ import { Observable } from 'rxjs/Observable';
 export class HomeComponent implements OnInit, OnDestroy {
     public days: number[] = getDaysForCurrentMonth();
     public today: number = getTodayDate();
+    public currentDate: Date = new Date();
+    public getMonthStr = getMonth;
+    public currentMonth: number = new Date().getMonth();
 
     private slots: Slot[] = [];
     private bookedSlots: BookedSlot[] = [];
@@ -29,14 +32,19 @@ export class HomeComponent implements OnInit, OnDestroy {
     ) { }
 
     public ngOnInit(): void {
-        this.dataSub = Observable.combineLatest(
-            this.appService.getBookedSlots(),
-            this.appService.getSlots()
-        )
-        .subscribe((res: [BookedSlot[], Slot[]]) => {
-            [this.bookedSlots, this.slots] = res;
-            console.log(this.bookedSlots);
-        });
+        this.initMonthView();
+    }
+
+    public get activeMonth(): number {
+        return this.currentDate.getMonth();
+    }
+
+    public get prevMonth(): number {
+        return this.currentDate.getMonth() - 1;
+    }
+
+    public get nextMonth(): number {
+        return this.currentDate.getMonth() + 1;
     }
 
     public handleGridClick(date: number): void {
@@ -56,10 +64,38 @@ export class HomeComponent implements OnInit, OnDestroy {
         return this.slots.find((slot: Slot) => slot.id == slotId).name;
     }
 
+    public changeMonth(dir: string): void {
+        switch (dir) {
+            case 'next':
+                this.currentDate.setMonth(this.currentDate.getMonth() + 1);
+                break;
+            case 'prev':
+                this.currentDate.setMonth(this.currentDate.getMonth() - 1);
+                break;
+            default:
+                break;
+        }
+        this.initMonthView(this.currentDate);
+        this.days = getDaysForCurrentMonth(this.currentDate);
+        this.today = getTodayDate(this.currentDate);
+    }
+
     public ngOnDestroy(): void {
         if (this.dataSub) {
             this.dataSub.unsubscribe();
         }
+    }
+
+    private initMonthView(selected: Date = new Date()) {
+        this.dataSub = Observable.combineLatest(
+            this.appService.getBookedSlots(),
+            this.appService.getSlots()
+        )
+        .subscribe((res: [BookedSlot[], Slot[]]) => {
+            [this.bookedSlots, this.slots] = res;
+            console.log(this.bookedSlots);
+            this.bookedSlots = this.bookedSlots.filter((bs: BookedSlot) => bs.year === selected.getFullYear() && bs.month === selected.getMonth());
+        });
     }
 
     private calculateSlotHours(slots): number {
