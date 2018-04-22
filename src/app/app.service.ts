@@ -7,23 +7,20 @@ import { Slot } from './interfaces/slots';
 @Injectable()
 export class AppService {
 
-  baseUrl = 'http://localhost:3001';
+    baseUrl = 'http://localhost:3001';
 
-  constructor(private http: Http) { }
+    constructor(private http: Http) { }
 
-  public getSlots(): Observable<Slot[]> {
-    return this.http
-      .get(`${this.baseUrl}/slots`)
-      .map(response => {
-        const slots = response.json();
-        return slots.map((slot) => new Slot(slot));
-      })
-      .catch(this.handleError);
-  }
+    public getSlots(): Observable<Slot[]> {
+        return this.http
+            .get(`${this.baseUrl}/slots`)
+            .map(response => response.json())
+            .catch(this.handleError);
+    }
 
-  private handleError (error: Response | any) {
-     console.error('ApiService::handleError', error);
-     return Observable.throw(error);
-  }
+    private handleError(error: Response | any) {
+        console.error('ApiService::handleError', error);
+        return Observable.throw(error);
+    }
 
 }

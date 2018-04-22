@@ -23,19 +23,20 @@ export class HomeComponent implements OnInit {
         // console.log(this.today);
 
         this.appService
-          .getSlots()
-          .subscribe(
-            (slots) => {
-              console.log(slots);
-              //this.slots = slots;
-            }
-          );
+            .getSlots()
+            .subscribe(
+                (slots) => {
+                    console.log(slots);
+                    //this.slots = slots;
+                }
+            );
     }
 
     public handleGridClick(date: number): void {
-        if(date >= this.today) {
-            this.router.navigate(['day-view']);
-        }
+        // if (date >= this.today) {
+        //     this.router.navigate(['day-view']);
+        // }
+        this.router.navigate(['book-slot/1']);
     }
 
 }
