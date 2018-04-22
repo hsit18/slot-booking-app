@@ -3,7 +3,7 @@
     <span (click)="changeMonth('prev')" class="prev-icon">
       <i class="material-icons">keyboard_arrow_left</i>{{getMonthStr(prevMonth)}}
     </span>
-    <span class="spacer">Calender View</span>
+    <span class="spacer">Calender View ( {{getMonthStr(activeMonth)}} - {{activeYear()}} )</span>
     <span (click)="changeMonth('next')" class="next-icon">
         {{getMonthStr(nextMonth)}}<i class="material-icons">navigate_next</i>
     </span>

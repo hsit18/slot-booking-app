@@ -39,12 +39,16 @@ export class HomeComponent implements OnInit, OnDestroy {
         return this.currentDate.getMonth();
     }
 
+    public activeYear(): number {
+        return this.currentDate.getFullYear();
+    }
+
     public get prevMonth(): number {
-        return this.currentDate.getMonth() - 1;
+        return (this.currentDate.getMonth() > 0) ? this.currentDate.getMonth() - 1 : 0;
     }
 
     public get nextMonth(): number {
-        return this.currentDate.getMonth() + 1;
+        return (this.currentDate.getMonth() < 11) ? this.currentDate.getMonth() + 1 : 0;
     }
 
     public handleGridClick(date: number): void {
@@ -75,6 +79,7 @@ export class HomeComponent implements OnInit, OnDestroy {
             default:
                 break;
         }
+        console.log(this.currentDate);
         this.initMonthView(this.currentDate);
         this.days = getDaysForCurrentMonth(this.currentDate);
         this.today = getTodayDate(this.currentDate);
