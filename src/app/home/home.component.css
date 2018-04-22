@@ -14,15 +14,24 @@
 }
 
 .date-text {
-  display: inline-block;
+  width: 100%;
   position: absolute;
-  top: 0px;
-  left:0px;
+  top: 10px;
+  left: 0px;
+}
+
+.date-text .day{
   background: cornsilk;
   border: 1px solid darkgrey;
   border-radius: 47%;
   padding: 6px;
   margin: 5px;
+}
+
+.date-text .action {
+  float: right;
+  padding: 3px;
+  cursor: pointer;
 }
 
 .slot-status {
@@ -31,7 +40,7 @@
   flex-direction: column;
 }
 .meeting-text {
-  margin: 1px;
+  margin: 3px;
   border: 1px solid green;
   border-radius: 10px;
   padding: 3px;
