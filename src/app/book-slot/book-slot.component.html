@@ -1,35 +1,49 @@
 <div class="book-slot-container">
-  <form class="book-slot-form" [formGroup]="options">
-    <mat-checkbox formControlName="hideRequired">Hide required marker</mat-checkbox>
+  <form class="book-slot-form" [formGroup]="formGroup">
+
     <div>
-      <label>Float label: </label>
-      <mat-radio-group formControlName="floatLabel">
-        <mat-radio-button value="auto">Auto</mat-radio-button>
-        <mat-radio-button value="always">Always</mat-radio-button>
-        <mat-radio-button value="never">Never</mat-radio-button>
-      </mat-radio-group>
+      <label>Booking Name:</label>
+      <mat-form-field>
+        <input formControlName="name" matInput placeholder="Booking Name" required>
+      </mat-form-field>
     </div>
-
-
-    <mat-form-field [hideRequiredMarker]="options.value.hideRequired" [floatLabel]="options.value.floatLabel">
-      <input matInput placeholder="Simple placeholder" required>
-    </mat-form-field>
-
-    <mat-form-field [floatLabel]="options.value.floatLabel">
-      <mat-label>Both a label and a placeholder</mat-label>
-      <input matInput placeholder="Simple placeholder">
-    </mat-form-field>
-
-    <mat-form-field [hideRequiredMarker]="options.value.hideRequired" [floatLabel]="options.value.floatLabel">
-      <mat-select required>
-        <mat-option>-- None --</mat-option>
-        <mat-option value="option">Option</mat-option>
-      </mat-select>
-      <mat-placeholder>
-        <mat-icon>favorite</mat-icon>
-        <b> Fancy</b>
-        <i> placeholder</i>
-      </mat-placeholder>
-    </mat-form-field>
+    <div>
+      <label>Room:</label>
+      <mat-form-field>
+        <mat-select formControlName="room" required>
+          <mat-option *ngFor="let room of rooms" value="{{room.id}}">{{room.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <span>Rate: ${{roomRate}} for 1 hour</span>
+    </div>
+    <div>
+      <label>Date:</label>
+      <mat-form-field>
+        <input matInput formControlName="date" [min]="today" [matDatepicker]="picker" placeholder="Choose a date">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div>
+      <label>Start Time:</label>
+      <mat-form-field>
+        <mat-select formControlName="hours" required>
+          <mat-option *ngFor="let hr of hours" value="{{hr}}">{{hr}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select formControlName="minutes" required>
+          <mat-option *ngFor="let mins of minutes" value="{{mins}}">{{mins}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div>
+      <label>Comments:</label>
+      <mat-form-field>
+        <input formControlName="comments" matInput placeholder="Comments" required>
+      </mat-form-field>
+    </div>
   </form>
+  <button class="btn-book-slot" (click)="bookSlot()" mat-raised-button>Submit</button>
+
 </div>

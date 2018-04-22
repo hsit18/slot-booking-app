@@ -14,7 +14,10 @@ import {
     MatRadioModule,
     MatOptionModule,
     MatSelectModule,
-    MatInputModule
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatButtonModule
 } from '@angular/material';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -49,7 +52,10 @@ import { BookSlotComponent } from './book-slot/book-slot.component';
         MatOptionModule,
         MatSelectModule,
         MatInputModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatButtonModule
     ],
     providers: [AppService],
     bootstrap: [AppComponent]
