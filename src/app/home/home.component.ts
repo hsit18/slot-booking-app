@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { AppService } from '../app.service';
 
 import { Slot } from '../interfaces/slots';
+import { BookedSlot } from '../interfaces/bookedSlots';
 
 @Component({
     selector: 'app-home',
@@ -17,31 +18,27 @@ export class HomeComponent implements OnInit {
     public today: number = getTodayDate();
 
     slots: Slot[] = [];
-    bookedSlots = [];
+    bookedSlots: BookedSlot[] = [];
+
     constructor(
         private router: Router,
         private appService: AppService
     ) { }
 
     public ngOnInit(): void {
-        this.bookedSlots = [
-            {
-              "title": "test title",
-              "slot_id": 1,
-              "day":22,
-              "month": 4,
-              "year": 2018,
-              "startTime": "12:30",
-              "endTime": "13:30",
-              "comments": "test description"
-            }
-        ];
+
+        this.appService
+            .getBookedSlots()
+            .subscribe(
+                (bookedSlots) => {
+                    this.bookedSlots = bookedSlots;
+                }
+            );
 
         this.appService
             .getSlots()
             .subscribe(
                 (slots) => {
-                    console.log(slots);
                     this.slots = slots;
                 }
             );
@@ -52,7 +49,29 @@ export class HomeComponent implements OnInit {
     }
 
     public getbookedSlot(day) {
-        return this.bookedSlots.filter(slot => slot.day === day) || [];
+        const formattedSlots = [];
+        //return this.bookedSlots.filter(slot => slot.day === day) || [];
+        const filteredBookedSlots = this.bookedSlots.filter(slot => slot.day === day) || [];
+
+        if(filteredBookedSlots) {
+          filteredBookedSlots.forEach((bookedSlot) => {
+              let slot = this.slots.find(s => s.id === bookedSlot.slot_id);
+              if(slot && slot.id) {
+                if(formattedSlots[slot.id]) {
+                  formattedSlots[slot.id].hour += slot.hour;
+                } else {
+                  formattedSlots[slot.id] = {};
+                  formattedSlots[slot.id].hour = slot.hour;
+                  formattedSlots[slot.id].name = slot.name;
+                  formattedSlots[slot.id].price = slot.price;
+                }
+              }
+
+
+          });
+        }
+        console.log(formattedSlots);
+        return formattedSlots;
     }
 
 }
