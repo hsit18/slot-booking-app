@@ -22,7 +22,9 @@
   top: 10px;
   left: 0px;
 }
-
+.title {
+  justify-content: center;
+}
 .date-text .day{
   background: cornsilk;
   border: 1px solid darkgrey;

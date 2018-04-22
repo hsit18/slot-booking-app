@@ -16,22 +16,24 @@
       "id": 3,
       "name": "Meeting Point A",
       "price": 15,
-      "hour": 1
+      "hour": 1,
+      "parent_room": 5
     },
     {
       "id": 4,
       "name": "Meeting Point B",
       "price": 20,
-      "hour": 1
+      "hour": 1,
+      "parent_room": 5
     },
     {
-      "id": 4,
+      "id": 5,
       "name": "Meeting Point Full",
       "price": 30,
       "hour": 1
     },
     {
-      "id": 5,
+      "id": 6,
       "name": "Basketball Court",
       "price": 50,
       "hour": 2
@@ -49,10 +51,9 @@
       "endTime": "13:30",
       "comments": "test description"
     },
-
     {
       "title": "jkjkkj",
-      "slot_id": "4",
+      "slot_id": 4,
       "day": 23,
       "month": 3,
       "year": 2018,
@@ -63,7 +64,7 @@
     },
     {
       "title": "wwww",
-      "slot_id": "2",
+      "slot_id": 2,
       "day": 22,
       "month": 3,
       "year": 2018,
@@ -71,6 +72,17 @@
       "endTime": "02:02",
       "comments": "sdsadaasd",
       "id": 3
+    },
+    {
+      "id": 1524404250732,
+      "title": "qqqqqqqqqq",
+      "slot_id": 1,
+      "day": 22,
+      "month": 3,
+      "year": 2018,
+      "startTime": "01:12",
+      "endTime": "02:12",
+      "comments": "wdwdwdwdwdwdw"
     }
   ]
 }

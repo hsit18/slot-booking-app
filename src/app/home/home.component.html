@@ -1,3 +1,8 @@
+<mat-toolbar>
+  <mat-toolbar-row class="title">
+      <span>Calender View</span>
+    </mat-toolbar-row>
+</mat-toolbar>
 <div class="calendar-main">
   <mat-grid-list cols="4" rowHeight="150px" rowWidth="100px">
     <mat-grid-tile *ngFor="let day of days" colspan="1" rowspan="1" class="app-grid-item" [ngClass]="{'disabled': day < today, 'active': day === today}">
