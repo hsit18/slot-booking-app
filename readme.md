@@ -1,27 +1,24 @@
 # SlotBookingApp
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.5.2.
+App show the the calendar view with summary of booked slots. User can book below list of slots as per the availability book slot page.
 
-## Development server
+# Meeting Room A at 10$ for 1 hour
+# Meeting Room B at 10$ for 1 hour
+# Meeting Point A at 15$ for 1 hour
+# Meeting Point A at 20$ for 1 hour
+# Meeting Point Full at 30$ for 1 hour
+# Meeting Basketball Court at 50$ for 2 hour
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+If user selects the Meeting Point Full then for the same time schedule user cannot book the Meeting Point A and Meeting Point B.
 
-## Code scaffolding
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## To run this app
 
-## Build
+Git clone the repo or extract the zip. Navigate the project root folder.
+Run `npm install` to install the project dependencies.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+### For Server App (Api Support). Preferred in separate terminal.
+    Run `npm run server` for a api server support. Server runs at `http://localhost:3001/`.
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+### For client App
+    Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`.
