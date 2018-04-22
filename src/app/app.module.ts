@@ -10,7 +10,6 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { AppService } from './app.service';
 import { appRoutes } from './app.routing';
-import { DayViewComponent } from './day-view/day-view.component';
 import { BookSlotComponent } from './book-slot/book-slot.component';
 import { AppMaterialImports } from './material.imports';
 
@@ -18,7 +17,6 @@ import { AppMaterialImports } from './material.imports';
     declarations: [
         AppComponent,
         HomeComponent,
-        DayViewComponent,
         BookSlotComponent
     ],
     imports: [
