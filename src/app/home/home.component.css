@@ -12,3 +12,21 @@
 .app-grid-item.active {
     background-color: aliceblue;
 }
+
+.date-text {
+  display: inline-block;
+  position: absolute;
+  top: 0px;
+  left:0px;
+  background: cornsilk;
+  border: 1px solid darkgrey;
+  border-radius: 47%;
+  padding: 6px;
+  margin: 5px;
+}
+
+.slot-status {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+}
