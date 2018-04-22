@@ -39,6 +39,16 @@
   ],
 
   "bookedSlots" : [
-    
+    {
+      "id": 1,
+      "title": "test title",
+      "slot_id": 1,
+      "day":22,
+      "month": 4,
+      "year": 2018,
+      "startTime": "12:30",
+      "endTime": "13:30",
+      "comments": "test description"
+    }
   ]
 }
