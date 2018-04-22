@@ -26,6 +26,14 @@ export class AppService {
             .catch(this.handleError);
     }
 
+    public bookSlot(slotObj: any): Observable<any> {
+        console.log(slotObj);
+        return this.http
+        .post(`${this.baseUrl}/bookedSlots`, JSON.stringify(slotObj))
+        .map(response => response.json())
+        .catch(this.handleError);
+    }
+
     private handleError(error: Response | any) {
         console.error('ApiService::handleError', error);
         return Observable.throw(error);
