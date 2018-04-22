@@ -9,7 +9,7 @@
           </span>
         </div>
         <div class="slot-status">
-          <span class="meeting-text">RoomA(2 hrs)</span>
+          <span *ngFor="let slot of getbookedSlot(day)" class="meeting-text">{{slot.slot_id}} RoomA(2 hrs)</span>
           <span class="meeting-text">RoomB(4 hrs)</span>
         </div>
       </div>
