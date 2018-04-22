@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Observable } from 'rxjs/Observable';
 
@@ -29,12 +29,13 @@ export class BookSlotComponent implements OnInit, OnDestroy {
 
     constructor(
         private appService: AppService,
-        private router: Router
+        private router: Router,
+        private route: ActivatedRoute
     ) {
         this.formGroup = new FormGroup({
             name: new FormControl(),
             room: new FormControl('1'),
-            date: new FormControl(),
+            date: new FormControl(new Date()),
             hours: new FormControl(),
             minutes: new FormControl(),
             comments: new FormControl()
@@ -42,10 +43,17 @@ export class BookSlotComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-      this.dataSub = Observable.combineLatest(
-          this.appService.getBookedSlots(),
-          this.appService.getSlots()
-      ).subscribe((res: [BookedSlot[], Slot[]]) => [this.bookedSlots, this.slots] = res);
+
+        this.route.params.take(1).subscribe((params: Params) => {
+            if(params && params.date) {
+                this.formGroup.get('date').setValue(new Date(Number(params.date)));
+            }
+        });
+
+        this.dataSub = Observable.combineLatest(
+            this.appService.getBookedSlots(),
+            this.appService.getSlots()
+        ).subscribe((res: [BookedSlot[], Slot[]]) => [this.bookedSlots, this.slots] = res);
 
         this.roomsSub = this.appService
             .getSlots()
@@ -83,16 +91,16 @@ export class BookSlotComponent implements OnInit, OnDestroy {
             endTime: `${this.getEndTime(formVal.hours)}:${formVal.minutes}`,
             comments: formVal.comments
         })
-        .take(1)
-        .subscribe(res => {
-            this.router.navigate(['home']);
-        }, err => {
-            console.log(err);
-        });
+            .take(1)
+            .subscribe(res => {
+                this.router.navigate(['home']);
+            }, err => {
+                console.log(err);
+            });
     }
 
     public cancelHandler(): void {
-      this.router.navigate(['home']);
+        this.router.navigate(['home']);
     }
 
     public getEndTime(hr: string): string {
@@ -101,33 +109,33 @@ export class BookSlotComponent implements OnInit, OnDestroy {
     }
 
     public checkRoomsAvailable() {
-      const formVal = this.formGroup.value;
-      const timeSt = new Date();
-      const timeEt = new Date();
-      const selectedStartTime = new Date();
-      const selectedEndTime = new Date();
-      console.log(formVal.date);
-      if(formVal.date && formVal.hours && formVal.minutes) {
-        selectedStartTime.setHours(formVal.hours, formVal.minutes, '00');
-        selectedEndTime.setHours(this.getEndTime(formVal.hours), formVal.minutes, '00');
+        const formVal = this.formGroup.value;
+        const timeSt = new Date();
+        const timeEt = new Date();
+        const selectedStartTime = new Date();
+        const selectedEndTime = new Date();
+        console.log(formVal.date);
+        if (formVal.date && formVal.hours && formVal.minutes) {
+            selectedStartTime.setHours(formVal.hours, formVal.minutes, '00');
+            selectedEndTime.setHours(this.getEndTime(formVal.hours), formVal.minutes, '00');
 
-        const bookedRoomsByDate: BookedSlot[] = this.bookedSlots.filter(bs => {
-          let st = bs.startTime;
-          let et = bs.endTime;
-          if( bs.day === formVal.date.getDate()
-              && bs.month === formVal.date.getMonth()
-              && bs.year === formVal.date.getFullYear()) {
-                timeSt.setHours(st.split(":")[0], st.split(":")[1], "00");
-                timeEt.setHours(et.split(":")[0], st.split(":")[1], "00");
-                return ((timeSt <= selectedStartTime && timeEt >= selectedStartTime) || (timeSt <= selectedEndTime && timeEt >= selectedEndTime));
-              }
-        });
-        const slotIds = bookedRoomsByDate.map(bs => bs.slot_id);
-        console.log(slotIds);
-        this.rooms = this.slots.filter(s => slotIds.indexOf(s.id) === -1);
-        this.formGroup.get('room').setValue(null);
-        console.log(this.rooms);
-      }
+            const bookedRoomsByDate: BookedSlot[] = this.bookedSlots.filter(bs => {
+                let st = bs.startTime;
+                let et = bs.endTime;
+                if (bs.day === formVal.date.getDate()
+                    && bs.month === formVal.date.getMonth()
+                    && bs.year === formVal.date.getFullYear()) {
+                    timeSt.setHours(st.split(":")[0], st.split(":")[1], "00");
+                    timeEt.setHours(et.split(":")[0], st.split(":")[1], "00");
+                    return ((timeSt <= selectedStartTime && timeEt >= selectedStartTime) || (timeSt <= selectedEndTime && timeEt >= selectedEndTime));
+                }
+            });
+            const slotIds = bookedRoomsByDate.map(bs => bs.slot_id);
+            console.log(slotIds);
+            this.rooms = this.slots.filter(s => slotIds.indexOf(s.id) === -1);
+            this.formGroup.get('room').setValue(null);
+            console.log(this.rooms);
+        }
 
     }
 

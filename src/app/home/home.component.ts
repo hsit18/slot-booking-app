@@ -48,7 +48,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     public handleGridClick(date: number): void {
-        this.router.navigate(['book-slot']);
+        this.router.navigate([`book-slot/${new Date(this.currentDate.setDate(date)).getTime()}`]);
     }
 
     public getBookedSlotHours(day: number) {

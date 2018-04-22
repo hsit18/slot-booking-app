@@ -15,7 +15,7 @@
     <div>
       <label>Date:</label>
       <mat-form-field>
-        <input matInput formControlName="date" [min]="today" [matDatepicker]="picker" placeholder="Choose a date" required (dateChange)="checkRoomsAvailable()">
+        <input matInput formControlName="date" [value]="formGroup.controls.date.value" [min]="today" [matDatepicker]="picker" placeholder="Choose a date" required (dateChange)="checkRoomsAvailable()">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
