@@ -1,9 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { getHours, getMinutes } from '../utils';
 import { AppService } from '../app.service';
+import { Slot } from '../interfaces/slots';
 
 @Component({
     selector: 'app-book-slot',
@@ -15,22 +16,21 @@ export class BookSlotComponent implements OnInit, OnDestroy {
     public hours: string[] = getHours();
     public minutes: string[] = getMinutes();
     public today: Date = new Date();
-    public rooms;
+    public rooms: Slot[];
 
     private roomsSub: Subscription;
 
     constructor(
-        private fb: FormBuilder,
         private appService: AppService,
         private router: Router
     ) {
-        this.formGroup = fb.group({
-            name: '',
-            room: '1',
-            date: '',
-            hours: '00',
-            minutes: '00',
-            comments: ''
+        this.formGroup = new FormGroup({
+            name: new FormControl(),
+            room: new FormControl('1'),
+            date: new FormControl(),
+            hours: new FormControl(),
+            minutes: new FormControl(),
+            comments: new FormControl()
         });
     }
 
@@ -38,17 +38,24 @@ export class BookSlotComponent implements OnInit, OnDestroy {
         this.roomsSub = this.appService
             .getSlots()
             .subscribe(
-                (slots) => {
+                (slots: Slot[]) => {
                     console.log(slots);
                     this.rooms = slots;
                 }
             );
     }
 
-    public get roomRate() {
+    public get roomRate(): number {
         if (this.rooms) {
-            const roomObj = this.rooms.find(room => room.id == this.formGroup.controls.room.value);
+            const roomObj = this.rooms.find((room: Slot) => room.id == this.formGroup.controls.room.value);
             return roomObj.price;
+        }
+    }
+
+    public get hourRate(): number {
+        if (this.rooms) {
+            const roomObj = this.rooms.find((room: Slot) => room.id == this.formGroup.controls.room.value);
+            return roomObj.hour;
         }
     }
 

@@ -1,6 +1,5 @@
 <div class="book-slot-container">
   <form class="book-slot-form" [formGroup]="formGroup">
-
     <div>
       <label>Booking Name:</label>
       <mat-form-field>
@@ -14,12 +13,12 @@
           <mat-option *ngFor="let room of rooms" value="{{room.id}}">{{room.name}}</mat-option>
         </mat-select>
       </mat-form-field>
-      <span>Rate: ${{roomRate}} for 1 hour</span>
+      <span>Rate: ${{roomRate}} for {{hourRate}} {{hourRate > 1 ? 'hours' : 'hour'}}</span>
     </div>
     <div>
       <label>Date:</label>
       <mat-form-field>
-        <input matInput formControlName="date" [min]="today" [matDatepicker]="picker" placeholder="Choose a date">
+        <input matInput formControlName="date" [min]="today" [matDatepicker]="picker" placeholder="Choose a date" required>
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
@@ -40,10 +39,9 @@
     <div>
       <label>Comments:</label>
       <mat-form-field>
-        <input formControlName="comments" matInput placeholder="Comments" required>
+        <input formControlName="comments" matInput placeholder="Comments">
       </mat-form-field>
     </div>
   </form>
-  <button class="btn-book-slot" (click)="bookSlot()" mat-raised-button>Submit</button>
-
+  <button [disabled]="!formGroup.valid" class="btn-book-slot" (click)="bookSlot()" mat-raised-button>Submit</button>
 </div>
