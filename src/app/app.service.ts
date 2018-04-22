@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Rx';
-import { Http, Response } from '@angular/http';
+import { Http, Response, RequestOptions, Headers } from '@angular/http';
 import { Slot } from './interfaces/slots';
 import { BookedSlot } from './interfaces/bookedSlots';
 
@@ -28,8 +28,10 @@ export class AppService {
 
     public bookSlot(slotObj: any): Observable<any> {
         console.log(slotObj);
+        let head = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: head });
         return this.http
-        .post(`${this.baseUrl}/bookedSlots`, JSON.stringify(slotObj))
+        .post(`${this.baseUrl}/bookedSlots`, JSON.stringify(slotObj), options)
         .map(response => response.json())
         .catch(this.handleError);
     }

@@ -25,13 +25,13 @@
       "hour": 1
     },
     {
-      "id": 5,
+      "id": 4,
       "name": "Meeting Point Full",
       "price": 30,
       "hour": 1
     },
     {
-      "id": 6,
+      "id": 5,
       "name": "Basketball Court",
       "price": 50,
       "hour": 2
@@ -49,16 +49,28 @@
       "endTime": "13:30",
       "comments": "test description"
     },
+
     {
-      "id": 2,
-      "title": "test title new",
-      "slot_id": 3,
-      "day": 25,
-      "month": 4,
+      "title": "jkjkkj",
+      "slot_id": "4",
+      "day": 23,
+      "month": 3,
       "year": 2018,
-      "startTime": "12:30",
-      "endTime": "13:30",
-      "comments": "test comment"
+      "startTime": "03:04",
+      "endTime": "04:04",
+      "comments": "hhkjkj",
+      "id": 2
+    },
+    {
+      "title": "wwww",
+      "slot_id": "2",
+      "day": 22,
+      "month": 3,
+      "year": 2018,
+      "startTime": "01:02",
+      "endTime": "02:02",
+      "comments": "sdsadaasd",
+      "id": 3
     }
   ]
 }
