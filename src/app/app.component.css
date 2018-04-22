@@ -1,0 +1,10 @@
+.spacer {
+  flex: 1 1 auto;
+}
+.primary-head {
+    background: #009688;
+    color: #fff;
+}
+.book {
+  cursor: pointer;
+}

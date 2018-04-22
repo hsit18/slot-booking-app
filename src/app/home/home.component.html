@@ -1,0 +1,31 @@
+<mat-toolbar>
+  <mat-toolbar-row>
+    <span (click)="changeMonth('prev')" class="prev-icon">
+      <i class="material-icons">keyboard_arrow_left</i>{{getMonthStr(prevMonth)}}
+    </span>
+    <span class="spacer">Calender View ( {{getMonthStr(activeMonth)}} - {{activeYear()}} )</span>
+    <span (click)="changeMonth('next')" class="next-icon">
+        {{getMonthStr(nextMonth)}}<i class="material-icons">navigate_next</i>
+    </span>
+  </mat-toolbar-row>
+</mat-toolbar>
+<div class="calendar-main">
+  <mat-grid-list cols="4" rowHeight="150px" rowWidth="100px">
+    <mat-grid-tile *ngFor="let day of days" colspan="1" rowspan="1" class="app-grid-item" [ngClass]="{'disabled': ((activeMonth === currentMonth && day < today) || activeMonth < currentMonth), 'active': activeMonth === currentMonth && day === today}">
+      <div class="date-container">
+        <div class="date-text">
+          <span class="day">{{day}}</span>
+          <span *ngIf="!((activeMonth === currentMonth && day < today) || activeMonth < currentMonth)" class="action app-book-slot">
+            <i (click)="handleGridClick(day)" class="material-icons">add</i>
+          </span>
+        </div>
+        <div class="slot-status">
+          <span *ngFor="let slot of getBookedSlotHours(day)" class="meeting-text">
+            {{getSlotName(slot[0])}}
+            <br/>({{slot[2]}} {{slot[2] > 1 ? 'hours' : 'hour'}}) Booked
+          </span>
+        </div>
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

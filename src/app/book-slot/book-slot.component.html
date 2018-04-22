@@ -1,0 +1,57 @@
+<div class="book-slot-container">
+  <mat-toolbar>
+    <mat-toolbar-row class="title">
+        <span>Book a Slot</span>
+      </mat-toolbar-row>
+  </mat-toolbar>
+  <form class="book-slot-form" [formGroup]="formGroup">
+    <div>
+      <label>Booking Name:</label>
+      <mat-form-field>
+        <input formControlName="name" matInput placeholder="Booking Name" required>
+      </mat-form-field>
+    </div>
+
+    <div>
+      <label>Date:</label>
+      <mat-form-field>
+        <input matInput formControlName="date" [value]="formGroup.controls.date.value" [min]="today" [matDatepicker]="picker" placeholder="Choose a date" required (dateChange)="checkRoomsAvailable()">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div>
+      <label>Start Time:</label>
+      <mat-form-field>
+        <mat-select formControlName="hours" required (change)="checkRoomsAvailable()">
+          <mat-option *ngFor="let hr of hours" value="{{hr}}">{{hr}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-select formControlName="minutes" required (change)="checkRoomsAvailable()">
+          <mat-option *ngFor="let mins of minutes" value="{{mins}}">{{mins}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div>
+    <label>Room:</label>
+      <mat-form-field>
+        <mat-select placeholder="Select Room" formControlName="room" required>
+          <mat-option *ngFor="let room of rooms" value="{{room.id}}">{{room.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <span *ngIf="rooms && rooms.length > 1">Rate: ${{roomRate}} for {{hourRate}} {{hourRate > 1 ? 'hours' : 'hour'}}</span>
+    </div>
+    <div>
+      <label>Comments:</label>
+      <mat-form-field>
+        <input formControlName="comments" matInput placeholder="Comments">
+      </mat-form-field>
+    </div>
+  </form>
+  <div class="buttons">
+    <button [disabled]="!formGroup.valid" class="btn-book-slot" (click)="bookSlot()" mat-raised-button>Submit</button>
+    <button class="primary btn-book-slot" (click)="cancelHandler()" mat-raised-button>Cancel</button>  
+  </div>
+
+</div>

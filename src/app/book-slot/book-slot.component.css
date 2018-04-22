@@ -1,0 +1,35 @@
+.book-slot-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.book-slot-container .title {
+  justify-content: center;
+}
+
+.book-slot-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.book-slot-container form {
+  margin-bottom: 20px;
+}
+
+.book-slot-container form>* {
+  margin: 5px 0;
+}
+
+.book-slot-container .mat-radio-button {
+  margin: 0 5px;
+}
+.btn-book-slot {
+    width: 15%;
+}
+
+.buttons {
+    width: 13%;
+    display: flex;
+    justify-content: space-between;
+}
