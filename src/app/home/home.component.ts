@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { getDaysForCurrentMonth, getTodayDate } from '../utils';
+import { getDaysForCurrentMonth, getTodayDate, arrayGroupByProp } from '../utils';
 import { Router } from '@angular/router';
 
 import { AppService } from '../app.service';
@@ -33,25 +33,40 @@ export class HomeComponent implements OnInit, OnDestroy {
             this.appService.getBookedSlots(),
             this.appService.getSlots()
         )
-        .subscribe((res: [BookedSlot[], Slot[]]) => [this.bookedSlots, this.slots] = res);
+        .subscribe((res: [BookedSlot[], Slot[]]) => {
+            [this.bookedSlots, this.slots] = res;
+            console.log(this.bookedSlots);
+        });
     }
 
     public handleGridClick(date: number): void {
         this.router.navigate(['book-slot']);
     }
 
-    public getbookedSlot(day: number): BookedSlot[] {
-        return this.bookedSlots.filter((bs: BookedSlot) => bs.day === day);
+    public getBookedSlotHours(day: number) {
+        const slots: BookedSlot[] = this.bookedSlots.filter((bs: BookedSlot) => bs.day === day);
+        const slotsById = Object.entries(arrayGroupByProp(slots, 'slot_id'));
+        slotsById.map((sl) => {
+            sl.push(this.calculateSlotHours(sl[1]));
+        });
+        return slotsById;
     }
 
     public getSlotName(slotId: number): string {
-        return this.slots.find((slot: Slot) => slot.id === slotId).name;
+        return this.slots.find((slot: Slot) => slot.id == slotId).name;
     }
 
     public ngOnDestroy(): void {
         if (this.dataSub) {
             this.dataSub.unsubscribe();
         }
+    }
+
+    private calculateSlotHours(slots): number {
+        return slots.reduce((hrs: number, slot: BookedSlot) => {
+            slot.slot_id == 6 ? (hrs = hrs+2) : hrs++;
+            return hrs;
+        }, 0);
     }
 
 }

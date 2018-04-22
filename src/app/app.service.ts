@@ -28,8 +28,8 @@ export class AppService {
 
     public bookSlot(slotObj: any): Observable<any> {
         console.log(slotObj);
-        let head = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: head });
+        const head = new Headers({ 'Content-Type': 'application/json' });
+        const options = new RequestOptions({ headers: head });
         return this.http
         .post(`${this.baseUrl}/bookedSlots`, JSON.stringify(slotObj), options)
         .map(response => response.json())
