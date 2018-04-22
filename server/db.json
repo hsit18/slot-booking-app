@@ -49,10 +49,9 @@
       "endTime": "13:30",
       "comments": "test description"
     },
-
     {
       "title": "jkjkkj",
-      "slot_id": "4",
+      "slot_id": 4,
       "day": 23,
       "month": 3,
       "year": 2018,
@@ -63,7 +62,7 @@
     },
     {
       "title": "wwww",
-      "slot_id": "2",
+      "slot_id": 2,
       "day": 22,
       "month": 3,
       "year": 2018,
@@ -71,6 +70,17 @@
       "endTime": "02:02",
       "comments": "sdsadaasd",
       "id": 3
+    },
+    {
+      "id": 1524404250732,
+      "title": "qqqqqqqqqq",
+      "slot_id": 1,
+      "day": 22,
+      "month": 3,
+      "year": 2018,
+      "startTime": "01:12",
+      "endTime": "02:12",
+      "comments": "wdwdwdwdwdwdw"
     }
   ]
 }
