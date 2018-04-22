@@ -91,6 +91,10 @@ export class BookSlotComponent implements OnInit, OnDestroy {
         });
     }
 
+    public cancelHandler(): void {
+      this.router.navigate(['home']);
+    }
+
     public getEndTime(hr: string): string {
         const indx: number = this.hours.findIndex(h => h === hr);
         return this.hours[indx + 1];
@@ -120,7 +124,8 @@ export class BookSlotComponent implements OnInit, OnDestroy {
         });
         const slotIds = bookedRoomsByDate.map(bs => bs.slot_id);
         console.log(slotIds);
-        this.rooms = this.slots.filter(s => slotIds.indexOf(s.id) === -1)
+        this.rooms = this.slots.filter(s => slotIds.indexOf(s.id) === -1);
+        this.formGroup.get('room').setValue(null);
         console.log(this.rooms);
       }
 

@@ -49,5 +49,9 @@
       </mat-form-field>
     </div>
   </form>
-  <button [disabled]="!formGroup.valid" class="btn-book-slot" (click)="bookSlot()" mat-raised-button>Submit</button>
+  <div class="buttons">
+    <button [disabled]="!formGroup.valid" class="btn-book-slot" (click)="bookSlot()" mat-raised-button>Submit</button>
+    <button class="primary btn-book-slot" (click)="cancelHandler()" mat-raised-button>Cancel</button>  
+  </div>
+
 </div>
