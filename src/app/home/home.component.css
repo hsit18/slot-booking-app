@@ -37,3 +37,8 @@
   padding: 3px;
   background: antiquewhite;
 }
+.app-book-slot {
+    color: #009688;
+    font-weight: 700;
+    cursor: pointer;
+}
