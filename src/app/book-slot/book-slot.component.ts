@@ -62,6 +62,7 @@ export class BookSlotComponent implements OnInit, OnDestroy {
     public bookSlot(): void {
         const formVal = this.formGroup.value;
         this.appService.bookSlot({
+            id: Date.now(),
             title: formVal.name,
             slot_id: formVal.room,
             day: formVal.date.getDate(),
