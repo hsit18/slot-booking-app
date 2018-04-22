@@ -23,12 +23,12 @@
     <div>
       <label>Start Time:</label>
       <mat-form-field>
-        <mat-select formControlName="hours" required>
+        <mat-select formControlName="hours" required (change)="checkRoomsAvailable()">
           <mat-option *ngFor="let hr of hours" value="{{hr}}">{{hr}}</mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field>
-        <mat-select formControlName="minutes" required>
+        <mat-select formControlName="minutes" required (change)="checkRoomsAvailable()">
           <mat-option *ngFor="let mins of minutes" value="{{mins}}">{{mins}}</mat-option>
         </mat-select>
       </mat-form-field>
@@ -36,7 +36,7 @@
     <div>
     <label>Room:</label>
       <mat-form-field>
-        <mat-select formControlName="room" required>
+        <mat-select placeholder="Select Room" formControlName="room" required>
           <mat-option *ngFor="let room of rooms" value="{{room.id}}">{{room.name}}</mat-option>
         </mat-select>
       </mat-form-field>

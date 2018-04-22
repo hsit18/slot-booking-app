@@ -60,14 +60,14 @@ export class BookSlotComponent implements OnInit, OnDestroy {
     public get roomRate(): number {
         if (this.rooms) {
             const roomObj = this.rooms.find((room: Slot) => room.id == this.formGroup.controls.room.value);
-            return roomObj.price;
+            return (roomObj && roomObj.price) || 0;
         }
     }
 
     public get hourRate(): number {
         if (this.rooms) {
             const roomObj = this.rooms.find((room: Slot) => room.id == this.formGroup.controls.room.value);
-            return roomObj.hour;
+            return (roomObj && roomObj.hour) || 0;
         }
     }
 
@@ -98,14 +98,27 @@ export class BookSlotComponent implements OnInit, OnDestroy {
 
     public checkRoomsAvailable() {
       const formVal = this.formGroup.value;
+      const timeSt = new Date();
+      const timeEt = new Date();
+      const selectedStartTime = new Date();
+      const selectedEndTime = new Date();
       console.log(formVal.date);
       if(formVal.date && formVal.hours && formVal.minutes) {
+        selectedStartTime.setHours(formVal.hours, formVal.minutes, '00');
+        selectedEndTime.setHours(this.getEndTime(formVal.hours), formVal.minutes, '00');
+
         const bookedRoomsByDate: BookedSlot[] = this.bookedSlots.filter(bs => {
-          return (bs.day === formVal.date.getDate() &&
-                  bs.month === formVal.date.getMonth() &&
-                  bs.year === formVal.date.getFullYear())
+          let st = bs.startTime;
+          let et = bs.endTime;
+          if( bs.day === formVal.date.getDate()
+              && bs.month === formVal.date.getMonth()
+              && bs.year === formVal.date.getFullYear()) {
+                timeSt.setHours(st.split(":")[0], st.split(":")[1], "00");
+                timeEt.setHours(et.split(":")[0], st.split(":")[1], "00");
+                return ((timeSt <= selectedStartTime && timeEt >= selectedStartTime) || (timeSt <= selectedEndTime && timeEt >= selectedEndTime));
+              }
         });
-        const slotIds = bookedRoomsByDate.map(bs => bs.id);
+        const slotIds = bookedRoomsByDate.map(bs => bs.slot_id);
         console.log(slotIds);
         this.rooms = this.slots.filter(s => slotIds.indexOf(s.id) === -1)
         console.log(this.rooms);
