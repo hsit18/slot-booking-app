@@ -9,7 +9,7 @@
           </span>
         </div>
         <div class="slot-status">
-          <span *ngFor="let slot of getbookedSlot(day)" class="meeting-text">{{slot.slot_id}} RoomA(2 hrs)</span>
+          <span *ngFor="let slot of getbookedSlot(day)" class="meeting-text">{{getSlotName(slot.slot_id)}}</span>
         </div>
       </div>
     </mat-grid-tile>

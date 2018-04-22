@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { getDaysForCurrentMonth, getTodayDate } from '../utils';
 import { Router } from '@angular/router';
@@ -7,18 +7,21 @@ import { AppService } from '../app.service';
 
 import { Slot } from '../interfaces/slots';
 import { BookedSlot } from '../interfaces/bookedSlots';
+import { Subscription } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
     public days: number[] = getDaysForCurrentMonth();
     public today: number = getTodayDate();
 
-    slots: Slot[] = [];
-    bookedSlots: BookedSlot[] = [];
+    private slots: Slot[] = [];
+    private bookedSlots: BookedSlot[] = [];
+    private dataSub: Subscription;
 
     constructor(
         private router: Router,
@@ -26,52 +29,29 @@ export class HomeComponent implements OnInit {
     ) { }
 
     public ngOnInit(): void {
-
-        this.appService
-            .getBookedSlots()
-            .subscribe(
-                (bookedSlots) => {
-                    this.bookedSlots = bookedSlots;
-                }
-            );
-
-        this.appService
-            .getSlots()
-            .subscribe(
-                (slots) => {
-                    this.slots = slots;
-                }
-            );
+        this.dataSub = Observable.combineLatest(
+            this.appService.getBookedSlots(),
+            this.appService.getSlots()
+        )
+        .subscribe((res: [BookedSlot[], Slot[]]) => [this.bookedSlots, this.slots] = res);
     }
 
     public handleGridClick(date: number): void {
         this.router.navigate(['book-slot']);
     }
 
-    public getbookedSlot(day) {
-        const formattedSlots = [];
-        //return this.bookedSlots.filter(slot => slot.day === day) || [];
-        const filteredBookedSlots = this.bookedSlots.filter(slot => slot.day === day) || [];
+    public getbookedSlot(day: number): BookedSlot[] {
+        return this.bookedSlots.filter((bs: BookedSlot) => bs.day === day);
+    }
 
-        if(filteredBookedSlots) {
-          filteredBookedSlots.forEach((bookedSlot) => {
-              let slot = this.slots.find(s => s.id === bookedSlot.slot_id);
-              if(slot && slot.id) {
-                if(formattedSlots[slot.id]) {
-                  formattedSlots[slot.id].hour += slot.hour;
-                } else {
-                  formattedSlots[slot.id] = {};
-                  formattedSlots[slot.id].hour = slot.hour;
-                  formattedSlots[slot.id].name = slot.name;
-                  formattedSlots[slot.id].price = slot.price;
-                }
-              }
+    public getSlotName(slotId: number): string {
+        return this.slots.find((slot: Slot) => slot.id === slotId).name;
+    }
 
-
-          });
+    public ngOnDestroy(): void {
+        if (this.dataSub) {
+            this.dataSub.unsubscribe();
         }
-        console.log(formattedSlots);
-        return formattedSlots;
     }
 
 }
