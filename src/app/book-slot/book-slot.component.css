@@ -1,0 +1,8 @@
+.book-slot-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .book-slot-container > * {
+    width: 100%;
+  }

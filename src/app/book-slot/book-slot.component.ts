@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Params, ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -8,22 +8,21 @@ import { Subscription } from 'rxjs';
     styleUrls: ['./book-slot.component.css']
 })
 export class BookSlotComponent implements OnInit, OnDestroy {
-    private paramsSubscription: Subscription;
+    public options: FormGroup;
 
-    constructor(
-        private route: ActivatedRoute
-    ) { }
-
-    public ngOnInit(): void {
-        this.paramsSubscription = this.route.params.subscribe((params: Params) => {
-            console.log(params);
+    constructor(fb: FormBuilder) {
+        this.options = fb.group({
+            hideRequired: false,
+            floatLabel: 'auto',
         });
     }
 
+    public ngOnInit(): void {
+
+    }
+
     public ngOnDestroy(): void {
-        if (this.paramsSubscription) {
-            this.paramsSubscription.unsubscribe();
-        }
+
     }
 
 }

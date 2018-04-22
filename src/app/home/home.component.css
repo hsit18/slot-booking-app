@@ -1,16 +1,19 @@
 .calendar-main {
-    margin: 20px 100px 0px 100px;
-    border: 3px solid #009688;
+  margin: 20px 100px 0px 100px;
+  border: 3px solid #009688;
 }
+
 .app-grid-item {
-    background-color: white;
-    border: 1px solid aliceblue;
+  background-color: white;
+  border: 1px solid aliceblue;
 }
+
 .app-grid-item.disabled {
-    background-color: gainsboro;
+  background-color: gainsboro;
 }
+
 .app-grid-item.active {
-    background-color: aliceblue;
+  background-color: aliceblue;
 }
 
 .date-text {
@@ -39,6 +42,7 @@
   width: 100%;
   flex-direction: column;
 }
+
 .meeting-text {
   margin: 3px;
   border: 1px solid green;
@@ -46,8 +50,9 @@
   padding: 3px;
   background: antiquewhite;
 }
+
 .app-book-slot {
-    color: #009688;
-    font-weight: 700;
-    cursor: pointer;
+  color: #009688;
+  font-weight: 700;
+  cursor: pointer;
 }

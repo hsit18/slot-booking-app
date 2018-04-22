@@ -4,13 +4,13 @@
       <div class="date-container">
         <div class="date-text">
           <span class="day">{{day}}</span>
-          <span class="action"><i (click)="handleGridClick(day)" class="material-icons">add</i></span>
+          <span *ngIf="!(day < today)" class="action app-book-slot">
+            <i (click)="handleGridClick(day)" class="material-icons">add</i>
+          </span>
         </div>
         <div class="slot-status">
           <span class="meeting-text">RoomA(2 hrs)</span>
           <span class="meeting-text">RoomB(4 hrs)</span>
-          <!-- <span class="meeting-text">Metting RoomA 2/24</span>
-          <span class="meeting-text">Metting RoomA 2/24</span> -->
         </div>
       </div>
     </mat-grid-tile>

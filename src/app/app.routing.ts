@@ -7,5 +7,5 @@ export const appRoutes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
     { path: 'home', component: HomeComponent },
     { path: 'day-view', component: DayViewComponent },
-    { path: 'book-slot/:id', component: BookSlotComponent }
+    { path: 'book-slot', component: BookSlotComponent }
 ];

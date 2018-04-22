@@ -33,10 +33,7 @@ export class HomeComponent implements OnInit {
     }
 
     public handleGridClick(date: number): void {
-        // if (date >= this.today) {
-        //     this.router.navigate(['day-view']);
-        // }
-        this.router.navigate(['book-slot/1']);
+        this.router.navigate(['book-slot']);
     }
 
 }
