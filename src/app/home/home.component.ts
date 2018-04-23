@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Observable } from 'rxjs/Observable';
-import {MatDialog} from '@angular/material';
+import { MatDialog } from '@angular/material';
 
 import { getDaysForCurrentMonth, getTodayDate, arrayGroupByProp, getMonth } from '../utils';
 
@@ -45,12 +45,12 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.currentDate = new Date();
 
         this.appService
-          .getSlots()
-          .subscribe(
-              (slots: Slot[]) => {
-                  this.slots = slots;
-              }
-          );
+            .getSlots()
+            .subscribe(
+                (slots: Slot[]) => {
+                    this.slots = slots;
+                }
+            );
         this.initMonthView();
     }
 
@@ -109,20 +109,16 @@ export class HomeComponent implements OnInit, OnDestroy {
       get booked slot hours for a day
     */
     public getformattedSlots(day: number) {
-        const checkBookedSlot = this.checkBookedSlot(day);
-        const bookedSlotsBySlotId = {};
-
-        checkBookedSlot.forEach(bs => {
-          const slot = this.slots.find((slot: Slot) => slot.id == bs.slot_id);
-          if(bookedSlotsBySlotId[slot.id]) {
-            bookedSlotsBySlotId[slot.id].hour += slot.hour;
-            bookedSlotsBySlotId[slot.id].price += slot.price;
-          } else {
-            bookedSlotsBySlotId[slot.id] = slot;
-          }
-        });
-        console.log(">>>>>>>>  ", Object.values(bookedSlotsBySlotId));
-        return Object.values(bookedSlotsBySlotId);
+        return Object.values([...this.checkBookedSlot(day)].reduce((bookedSlotsBySlotId, bs) => {
+            const slot = { ...this.slots.find((slot: Slot) => slot.id == bs.slot_id) };
+            if (bookedSlotsBySlotId[slot.id]) {
+                bookedSlotsBySlotId[slot.id].hour += slot.hour;
+                bookedSlotsBySlotId[slot.id].price += slot.price;
+            } else {
+                bookedSlotsBySlotId[slot.id] = slot;
+            }
+            return bookedSlotsBySlotId;
+        }, {}));
     }
 
     /*
@@ -156,26 +152,26 @@ export class HomeComponent implements OnInit, OnDestroy {
     */
     private initMonthView(selected: Date = new Date()) {
         this.appService
-        .getBookedSlots(selected.getMonth(), selected.getFullYear())
-        .subscribe(
-            (bookedSlots: BookedSlot[]) => {
-                this.bookedSlots = bookedSlots;
-            }
-        );
+            .getBookedSlots(selected.getMonth(), selected.getFullYear())
+            .subscribe(
+                (bookedSlots: BookedSlot[]) => {
+                    this.bookedSlots = bookedSlots;
+                }
+            );
     }
 
     /*
       view list of booked slots for a day
     */
     public viewBookedSlots(day): void {
-      this.dialog.open(ViewBookedSlotsComponent, {
-        width: '500px',
-        data: {
-          day: day,
-          currentDate: this.currentDate,
-          slots: this.slots,
-          bookedSlots: this.bookedSlots.filter((bs: BookedSlot) => bs.day === parseInt(day, 10))
-        }
-      });
+        this.dialog.open(ViewBookedSlotsComponent, {
+            width: '500px',
+            data: {
+                day: day,
+                currentDate: this.currentDate,
+                slots: this.slots,
+                bookedSlots: this.bookedSlots.filter((bs: BookedSlot) => bs.day === parseInt(day, 10))
+            }
+        });
     }
 }
