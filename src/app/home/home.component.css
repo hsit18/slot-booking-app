@@ -46,10 +46,10 @@
 }
 
 .meeting-text {
-  margin: 3px;
+  margin: 2px;
   border: 1px solid green;
-  border-radius: 10px;
-  padding: 3px;
+  border-radius: 14px;
+  padding: 5px;
   background: antiquewhite;
 }
 

@@ -1,0 +1,21 @@
+.booked-slot-card {
+  margin-bottom: 13px;
+}
+
+.mat-card-footer {
+  padding: 6px;
+  text-align: center;
+  font-weight: bold;
+}
+.mat-card-title {
+  font-weight: bold;
+  font-size: 15px;
+  text-transform: uppercase;
+}
+.mat-card-subtitle {
+  font-size: 16px;
+}
+.description {
+  padding-left: 8px;
+  font-style: italic;
+}

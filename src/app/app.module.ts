@@ -6,16 +6,21 @@ import { RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { AppMaterialImports } from './material.imports';
+
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { AppService } from './app.service';
-import { appRoutes } from './app.routing';
+import { ViewBookedSlotsComponent } from './view-booked-slots/view-booked-slots.component';
 import { BookSlotComponent } from './book-slot/book-slot.component';
-import { AppMaterialImports } from './material.imports';
+
+import { AppService } from './app.service';
+
+import { appRoutes } from './app.routing';
 
 @NgModule({
     declarations: [
         AppComponent,
+        ViewBookedSlotsComponent,
         HomeComponent,
         BookSlotComponent
     ],
@@ -29,6 +34,7 @@ import { AppMaterialImports } from './material.imports';
         ...AppMaterialImports
     ],
     providers: [AppService],
+    entryComponents: [ViewBookedSlotsComponent],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

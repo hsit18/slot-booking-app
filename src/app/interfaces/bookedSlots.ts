@@ -1,3 +1,6 @@
+/*
+  BookedSlots interface
+*/
 export class BookedSlot {
   id: number;
   title: string;
