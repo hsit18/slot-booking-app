@@ -2,12 +2,12 @@
 
 App show the the calendar view with summary of booked slots. User can book below list of slots as per the availability book slot page.
 
-## Meeting Room A at 10$ for 1 hour
-## Meeting Room B at 10$ for 1 hour
-## Meeting Point A at 15$ for 1 hour
-## Meeting Point A at 20$ for 1 hour
-## Meeting Point Full at 30$ for 1 hour
-## Meeting Basketball Court at 50$ for 2 hour
+1. Meeting Room A at 10$ for 1 hour
+2. Meeting Room B at 10$ for 1 hour
+3. Meeting Point A at 15$ for 1 hour
+4. Meeting Point A at 20$ for 1 hour
+5. Meeting Point Full at 30$ for 1 hour
+6. Basketball Court at 50$ for 2 hours
 
 If user selects the Meeting Point Full then for the same time schedule user cannot book the Meeting Point A and Meeting Point B.
 
