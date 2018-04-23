@@ -117,8 +117,9 @@ export class BookSlotComponent implements OnInit, OnDestroy {
         const selectedEndTime = new Date();
 
         if (formVal.date && formVal.hours && formVal.minutes) {
-            selectedStartTime.setHours(formVal.hours, formVal.minutes, '00');
-            selectedEndTime.setHours(this.getEndTime(formVal.hours), formVal.minutes, '00');
+            const endHour = this.getEndTime(formVal.hours);
+            selectedStartTime.setHours(formVal.hours, formVal.minutes, 0);
+            selectedEndTime.setHours(parseInt(endHour, 10), formVal.minutes, 0);
 
             const bookedRoomsByDate: BookedSlot[] = this.bookedSlots.filter(bs => {
                 let st = bs.startTime;
@@ -126,8 +127,9 @@ export class BookSlotComponent implements OnInit, OnDestroy {
                 if (bs.day === formVal.date.getDate()
                     && bs.month === formVal.date.getMonth()
                     && bs.year === formVal.date.getFullYear()) {
-                    timeSt.setHours(st.split(":")[0], st.split(":")[1], "00");
-                    timeEt.setHours(et.split(":")[0], st.split(":")[1], "00");
+                    timeSt.setHours(parseInt(st.split(":")[0], 10), parseInt(st.split(":")[1], 10), 0);
+                    timeEt.setHours(parseInt(et.split(":")[0], 10), parseInt(st.split(":")[1], 10), 0);
+
                     return ((timeSt <= selectedStartTime && timeEt >= selectedStartTime) || (timeSt <= selectedEndTime && timeEt >= selectedEndTime));
                 }
             });

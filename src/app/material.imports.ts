@@ -11,7 +11,9 @@ import {
     MatInputModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatButtonModule
+    MatButtonModule,
+    MatDialogModule,
+    MatCardModule
 } from '@angular/material';
 
 export const AppMaterialImports = [
@@ -27,5 +29,7 @@ export const AppMaterialImports = [
     MatInputModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatButtonModule
+    MatButtonModule,
+    MatDialogModule,
+    MatCardModule
 ];

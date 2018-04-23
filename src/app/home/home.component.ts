@@ -1,14 +1,17 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import {MatDialog} from '@angular/material';
 
 import { getDaysForCurrentMonth, getTodayDate, arrayGroupByProp, getMonth } from '../utils';
-import { Router } from '@angular/router';
 
 import { AppService } from '../app.service';
 
 import { Slot } from '../interfaces/slots';
 import { BookedSlot } from '../interfaces/bookedSlots';
-import { Subscription } from 'rxjs';
-import { Observable } from 'rxjs/Observable';
+
+import { ViewBookedSlotsComponent } from '../view-booked-slots/view-booked-slots.component';
 
 @Component({
     selector: 'app-home',
@@ -27,6 +30,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     private dataSub: Subscription;
 
     constructor(
+        public dialog: MatDialog,
         private router: Router,
         private appService: AppService
     ) { }
@@ -35,11 +39,17 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.initMonthView();
     }
 
+    public ngOnDestroy(): void {
+        if (this.dataSub) {
+            this.dataSub.unsubscribe();
+        }
+    }
+
     public get activeMonth(): number {
         return this.currentDate.getMonth();
     }
 
-    public activeYear(): number {
+    public get activeYear(): number {
         return this.currentDate.getFullYear();
     }
 
@@ -85,12 +95,6 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.today = getTodayDate(this.currentDate);
     }
 
-    public ngOnDestroy(): void {
-        if (this.dataSub) {
-            this.dataSub.unsubscribe();
-        }
-    }
-
     private initMonthView(selected: Date = new Date()) {
         this.dataSub = Observable.combineLatest(
             this.appService.getBookedSlots(),
@@ -109,5 +113,19 @@ export class HomeComponent implements OnInit, OnDestroy {
             return hrs;
         }, 0);
     }
+
+    public viewBookedSlots(day): void {
+
+      this.dialog.open(ViewBookedSlotsComponent, {
+        width: '500px',
+        data: {
+          day: day,
+          currentDate: this.currentDate,
+          slots: this.slots,
+          bookedSlots: this.bookedSlots.filter((bs: BookedSlot) => bs.day === parseInt(day, 10))
+        }
+      });
+    }
+
 
 }

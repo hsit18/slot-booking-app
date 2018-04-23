@@ -1,0 +1,22 @@
+<h1 mat-dialog-title>Booked slots on {{dateView}}</h1>
+<div mat-dialog-content>
+  <mat-card class="booked-slot-card" *ngFor="let bs of this.data.bookedSlots">
+    <mat-card-header>
+      <mat-card-title>{{bs.title}}</mat-card-title>
+      <mat-card-subtitle>{{slotName(bs)}}</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <p class="description">
+        {{bs.comments}}
+      </p>
+    </mat-card-content>
+    <mat-card-footer>
+      <span>Booked Time: {{bs.startTime}} - {{bs.startTime}}</span>
+    </mat-card-footer>
+  </mat-card>
+
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="closeClick()">Close</button>
+</div>
