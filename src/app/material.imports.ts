@@ -1,3 +1,6 @@
+/*
+  Angular material modules
+*/
 import {
     MatToolbarModule,
     MatGridListModule,

@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { Observable } from 'rxjs/Observable';
 
 import { getHours, getMinutes } from '../utils';
+
 import { AppService } from '../app.service';
 
 import { Slot } from '../interfaces/slots';
@@ -17,9 +18,11 @@ import { BookedSlot } from '../interfaces/bookedSlots';
 })
 export class BookSlotComponent implements OnInit, OnDestroy {
     public formGroup: FormGroup;
+
     public hours: string[] = getHours();
     public minutes: string[] = getMinutes();
     public today: Date = new Date();
+
     public slots: Slot[];
     public rooms: Slot[];
     public bookedSlots: BookedSlot[] = [];
@@ -27,6 +30,9 @@ export class BookSlotComponent implements OnInit, OnDestroy {
     private dataSub: Subscription;
     private roomsSub: Subscription;
 
+    /*
+      BookSlotComponent constructor
+    */
     constructor(
         private appService: AppService,
         private router: Router,
@@ -42,6 +48,9 @@ export class BookSlotComponent implements OnInit, OnDestroy {
         });
     }
 
+    /*
+      ngOnInit lifecycle method
+    */
     public ngOnInit(): void {
 
         this.route.params.take(1).subscribe((params: Params) => {
@@ -65,6 +74,18 @@ export class BookSlotComponent implements OnInit, OnDestroy {
             );
     }
 
+    /*
+      ngOnDestroy lifecycle method to unsubscribe roomsSub
+    */
+    public ngOnDestroy(): void {
+        if (this.roomsSub) {
+            this.roomsSub.unsubscribe();
+        }
+    }
+
+    /*
+      Getter to get slot rate
+    */
     public get roomRate(): number {
         if (this.rooms) {
             const roomObj = this.rooms.find((room: Slot) => room.id == this.formGroup.controls.room.value);
@@ -72,6 +93,9 @@ export class BookSlotComponent implements OnInit, OnDestroy {
         }
     }
 
+    /*
+      Getter to get slot hour
+    */
     public get hourRate(): number {
         if (this.rooms) {
             const roomObj = this.rooms.find((room: Slot) => room.id == this.formGroup.controls.room.value);
@@ -79,6 +103,9 @@ export class BookSlotComponent implements OnInit, OnDestroy {
         }
     }
 
+    /*
+      Form submit handler to save the slot
+    */
     public bookSlot(): void {
         const formVal = this.formGroup.value;
         this.appService.bookSlot({
@@ -99,15 +126,24 @@ export class BookSlotComponent implements OnInit, OnDestroy {
             });
     }
 
+    /*
+      Cancel handler to navigate to calendar view
+    */
     public cancelHandler(): void {
         this.router.navigate(['home']);
     }
 
+    /*
+      get end time hour based on start time hour
+    */
     public getEndTime(hr: string): string {
         const indx: number = this.hours.findIndex(h => h === hr);
         return this.hours[indx + 1];
     }
 
+    /*
+      check the availabilty for slots on change of date and time
+    */
     public checkRoomsAvailable() {
         const slotIds = [];
         const formVal = this.formGroup.value;
@@ -148,11 +184,4 @@ export class BookSlotComponent implements OnInit, OnDestroy {
             console.log(this.rooms);
         }
     }
-
-    public ngOnDestroy(): void {
-        if (this.roomsSub) {
-            this.roomsSub.unsubscribe();
-        }
-    }
-
 }

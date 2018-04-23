@@ -1,10 +1,10 @@
 <mat-toolbar>
   <mat-toolbar-row>
-    <span (click)="changeMonth('prev')" class="prev-icon">
+    <span (click)="changeMonthHandler('prev')" class="prev-icon">
       <i class="material-icons">keyboard_arrow_left</i>{{getMonthStr(prevMonth)}}
     </span>
     <span class="spacer">Calender View ( {{getMonthStr(activeMonth)}} - {{activeYear}} )</span>
-    <span (click)="changeMonth('next')" class="next-icon">
+    <span (click)="changeMonthHandler('next')" class="next-icon">
         {{getMonthStr(nextMonth)}}<i class="material-icons">navigate_next</i>
     </span>
   </mat-toolbar-row>
@@ -17,7 +17,7 @@
           <span class="day">{{day}}</span>
           <span class="action app-book-slot">
             <i *ngIf="getBookedSlotHours(day).length > 0" (click)="viewBookedSlots(day)" class="material-icons">view_list</i>
-            <i *ngIf="!((activeMonth === currentMonth && day < today) || activeMonth < currentMonth)" (click)="handleGridClick(day)" class="material-icons">add</i>
+            <i *ngIf="!((activeMonth === currentMonth && day < today) || activeMonth < currentMonth)" (click)="bookSlotClickHandler(day)" class="material-icons">add</i>
           </span>
         </div>
         <div class="slot-status">
