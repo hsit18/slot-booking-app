@@ -42,6 +42,13 @@ export class HomeComponent implements OnInit, OnDestroy {
       ngOnInit lifecycle method to initialize the calendar view
     */
     public ngOnInit(): void {
+        this.appService
+          .getSlots()
+          .subscribe(
+              (slots: Slot[]) => {
+                  this.slots = slots;
+              }
+          );
         this.initMonthView();
     }
 
@@ -131,15 +138,13 @@ export class HomeComponent implements OnInit, OnDestroy {
       initialize current month calendar view
     */
     private initMonthView(selected: Date = new Date()) {
-        this.dataSub = Observable.combineLatest(
-            this.appService.getBookedSlots(),
-            this.appService.getSlots()
-        )
-        .subscribe((res: [BookedSlot[], Slot[]]) => {
-            [this.bookedSlots, this.slots] = res;
-            console.log(this.bookedSlots);
-            this.bookedSlots = this.bookedSlots.filter((bs: BookedSlot) => bs.year === selected.getFullYear() && bs.month === selected.getMonth());
-        });
+        this.appService
+        .getBookedSlots(selected.getMonth(), selected.getFullYear())
+        .subscribe(
+            (bookedSlots: BookedSlot[]) => {
+                this.bookedSlots = bookedSlots;
+            }
+        );
     }
 
     /*

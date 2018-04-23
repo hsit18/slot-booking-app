@@ -29,9 +29,10 @@ export class AppService {
     /*
       API to get booked slots
     */
-    public getBookedSlots(): Observable<BookedSlot[]> {
+    public getBookedSlots(month?: number, year?: number): Observable<BookedSlot[]> {
+        let data = {month, year};
         return this.http
-            .get(`${this.baseUrl}/bookedSlots`)
+            .get(`${this.baseUrl}/bookedSlots`, {params: data})
             .map(response => response.json())
             .catch(this.handleError);
     }

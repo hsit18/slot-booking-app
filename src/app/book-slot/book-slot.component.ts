@@ -68,7 +68,6 @@ export class BookSlotComponent implements OnInit, OnDestroy {
             .getSlots()
             .subscribe(
                 (slots: Slot[]) => {
-                    console.log(slots);
                     this.slots = slots;
                 }
             );
@@ -84,22 +83,12 @@ export class BookSlotComponent implements OnInit, OnDestroy {
     }
 
     /*
-      Getter to get slot rate
+      Getter to get slot price and its hour
     */
-    public get roomRate(): number {
+    public get selectedRoomText(): string {
         if (this.rooms) {
             const roomObj = this.rooms.find((room: Slot) => room.id == this.formGroup.controls.room.value);
-            return (roomObj && roomObj.price) || 0;
-        }
-    }
-
-    /*
-      Getter to get slot hour
-    */
-    public get hourRate(): number {
-        if (this.rooms) {
-            const roomObj = this.rooms.find((room: Slot) => room.id == this.formGroup.controls.room.value);
-            return (roomObj && roomObj.hour) || 0;
+            return (roomObj) ? `Rate: ${roomObj.price}$ for ${roomObj.hour} hour(s)` : '';
         }
     }
 
