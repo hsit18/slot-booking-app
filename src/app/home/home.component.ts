@@ -28,6 +28,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     private slots: Slot[] = [];
     private bookedSlots: BookedSlot[] = [];
     private dataSub: Subscription;
+    private bookedSlotSub: Subscription;
 
     /*
       HomeComponent constructor
@@ -42,7 +43,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       ngOnInit lifecycle method to initialize the calendar view
     */
     public ngOnInit(): void {
-        this.appService
+        this.dataSub = this.appService
           .getSlots()
           .subscribe(
               (slots: Slot[]) => {
@@ -58,6 +59,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     public ngOnDestroy(): void {
         if (this.dataSub) {
             this.dataSub.unsubscribe();
+        }
+        if (this.bookedSlotSub) {
+            this.bookedSlotSub.unsubscribe();
         }
     }
 
@@ -138,7 +142,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       initialize current month calendar view
     */
     private initMonthView(selected: Date = new Date()) {
-        this.appService
+        this.bookedSlotSub = this.appService
         .getBookedSlots(selected.getMonth(), selected.getFullYear())
         .subscribe(
             (bookedSlots: BookedSlot[]) => {
