@@ -16,12 +16,12 @@
         <div class="date-text">
           <span class="day">{{day}}</span>
           <span class="action app-book-slot">
-            <i *ngIf="getBookedSlotHours(day).length > 0" (click)="viewBookedSlots(day)" class="material-icons">view_list</i>
+            <i *ngIf="checkBookedSlot(day).length > 0" (click)="viewBookedSlots(day)" class="material-icons">view_list</i>
             <i *ngIf="!((activeMonth === currentMonth && day < today) || activeMonth < currentMonth)" (click)="bookSlotClickHandler(day)" class="material-icons">add</i>
           </span>
         </div>
         <div class="slot-status">
-          <span *ngFor="let slot of getBookedSlotHours(day)" class="meeting-text">{{getSlotName(slot[0])}} {{slot[2]}} hour(s)</span>
+          <span *ngFor="let slot of getformattedSlots(day)" class="meeting-text">{{slot.name}} at {{slot.price}}$ for {{slot.hour}} hour(s)</span>
         </div>
       </div>
     </mat-grid-tile>

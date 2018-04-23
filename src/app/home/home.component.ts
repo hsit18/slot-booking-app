@@ -21,7 +21,7 @@ import { BookedSlot } from '../interfaces/bookedSlots';
 export class HomeComponent implements OnInit, OnDestroy {
     public days: number[] = getDaysForCurrentMonth();
     public today: number = getTodayDate();
-    public currentDate: Date = new Date();
+    public currentDate: Date;
     public getMonthStr = getMonth;
     public currentMonth: number = new Date().getMonth();
 
@@ -42,6 +42,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       ngOnInit lifecycle method to initialize the calendar view
     */
     public ngOnInit(): void {
+        this.currentDate = new Date();
+
         this.appService
           .getSlots()
           .subscribe(
@@ -99,13 +101,28 @@ export class HomeComponent implements OnInit, OnDestroy {
     /*
       get booked slot hours for a day
     */
-    public getBookedSlotHours(day: number) {
-        const slots: BookedSlot[] = this.bookedSlots.filter((bs: BookedSlot) => bs.day === day);
-        const slotsById = Object.entries(arrayGroupByProp(slots, 'slot_id'));
-        slotsById.map((sl) => {
-            sl.push(this.calculateSlotHours(sl[1]));
+    public checkBookedSlot(day: number): BookedSlot[] {
+        return this.bookedSlots.filter((bs: BookedSlot) => bs.day === day);
+    }
+
+    /*
+      get booked slot hours for a day
+    */
+    public getformattedSlots(day: number) {
+        const checkBookedSlot = this.checkBookedSlot(day);
+        const bookedSlotsBySlotId = {};
+
+        checkBookedSlot.forEach(bs => {
+          const slot = this.slots.find((slot: Slot) => slot.id == bs.slot_id);
+          if(bookedSlotsBySlotId[slot.id]) {
+            bookedSlotsBySlotId[slot.id].hour += slot.hour;
+            bookedSlotsBySlotId[slot.id].price += slot.price;
+          } else {
+            bookedSlotsBySlotId[slot.id] = slot;
+          }
         });
-        return slotsById;
+        console.log(">>>>>>>>  ", Object.values(bookedSlotsBySlotId));
+        return Object.values(bookedSlotsBySlotId);
     }
 
     /*
@@ -145,16 +162,6 @@ export class HomeComponent implements OnInit, OnDestroy {
                 this.bookedSlots = bookedSlots;
             }
         );
-    }
-
-    /*
-      calculate total hours for a slot of a day
-    */
-    private calculateSlotHours(slots): number {
-        return slots.reduce((hrs: number, slot: BookedSlot) => {
-            slot.slot_id == 6 ? (hrs = hrs+2) : hrs++;
-            return hrs;
-        }, 0);
     }
 
     /*
