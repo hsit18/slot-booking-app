@@ -18,17 +18,15 @@ import { BookedSlot } from '../interfaces/bookedSlots';
 })
 export class BookSlotComponent implements OnInit, OnDestroy {
     public formGroup: FormGroup;
-
     public hours: string[] = getHours();
     public minutes: string[] = getMinutes();
     public today: Date = new Date();
-
     public slots: Slot[];
     public rooms: Slot[];
     public bookedSlots: BookedSlot[] = [];
 
     private dataSub: Subscription;
-    private roomsSub: Subscription;
+    private paramSub: Subscription;
 
     /*
       BookSlotComponent constructor
@@ -53,7 +51,7 @@ export class BookSlotComponent implements OnInit, OnDestroy {
     */
     public ngOnInit(): void {
 
-        this.route.params.take(1).subscribe((params: Params) => {
+        this.paramSub = this.route.params.take(1).subscribe((params: Params) => {
             if(params && params.date) {
                 this.formGroup.get('date').setValue(new Date(Number(params.date)));
             }
@@ -62,23 +60,19 @@ export class BookSlotComponent implements OnInit, OnDestroy {
         this.dataSub = Observable.combineLatest(
             this.appService.getBookedSlots(),
             this.appService.getSlots()
-        ).subscribe((res: [BookedSlot[], Slot[]]) => [this.bookedSlots, this.slots] = res);
-
-        this.roomsSub = this.appService
-            .getSlots()
-            .subscribe(
-                (slots: Slot[]) => {
-                    this.slots = slots;
-                }
-            );
+        )
+        .subscribe((res: [BookedSlot[], Slot[]]) => [this.bookedSlots, this.slots] = res);
     }
 
     /*
-      ngOnDestroy lifecycle method to unsubscribe roomsSub
+      ngOnDestroy lifecycle method to unsubscribe dataSub
     */
     public ngOnDestroy(): void {
-        if (this.roomsSub) {
-            this.roomsSub.unsubscribe();
+        if (this.dataSub) {
+            this.dataSub.unsubscribe();
+        }
+        if (this.paramSub) {
+            this.paramSub.unsubscribe();
         }
     }
 

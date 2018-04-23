@@ -28,6 +28,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     private slots: Slot[] = [];
     private bookedSlots: BookedSlot[] = [];
     private dataSub: Subscription;
+    private bookedSlotSub: Subscription;
 
     /*
       HomeComponent constructor
@@ -43,14 +44,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     */
     public ngOnInit(): void {
         this.currentDate = new Date();
-
-        this.appService
-            .getSlots()
-            .subscribe(
-                (slots: Slot[]) => {
-                    this.slots = slots;
-                }
-            );
+        this.dataSub = this.appService
+          .getSlots()
+          .subscribe(
+              (slots: Slot[]) => {
+                  this.slots = slots;
+              }
+          );
         this.initMonthView();
     }
 
@@ -60,6 +60,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     public ngOnDestroy(): void {
         if (this.dataSub) {
             this.dataSub.unsubscribe();
+        }
+        if (this.bookedSlotSub) {
+            this.bookedSlotSub.unsubscribe();
         }
     }
 
@@ -106,7 +109,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     /*
-      get booked slot hours for a day
+      get booked slots details for a day
     */
     public getformattedSlots(day: number) {
         return Object.values([...this.checkBookedSlot(day)].reduce((bookedSlotsBySlotId, bs) => {
@@ -119,13 +122,6 @@ export class HomeComponent implements OnInit, OnDestroy {
             }
             return bookedSlotsBySlotId;
         }, {}));
-    }
-
-    /*
-      get slot name by slot Id
-    */
-    public getSlotName(slotId: number): string {
-        return this.slots.find((slot: Slot) => slot.id == slotId).name;
     }
 
     /*
@@ -151,13 +147,13 @@ export class HomeComponent implements OnInit, OnDestroy {
       initialize current month calendar view
     */
     private initMonthView(selected: Date = new Date()) {
-        this.appService
-            .getBookedSlots(selected.getMonth(), selected.getFullYear())
-            .subscribe(
-                (bookedSlots: BookedSlot[]) => {
-                    this.bookedSlots = bookedSlots;
-                }
-            );
+      this.bookedSlotSub = this.appService
+      .getBookedSlots(selected.getMonth(), selected.getFullYear())
+      .subscribe(
+          (bookedSlots: BookedSlot[]) => {
+              this.bookedSlots = bookedSlots;
+          }
+      );
     }
 
     /*
